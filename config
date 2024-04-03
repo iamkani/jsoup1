@@ -1,0 +1,8 @@
+pathToExecutable: ./JsoupFuzzer.java
+args: "@@"
+pathToInput: corpus
+lang: java
+fuzzer: jazzer
+cores: 1
+numberOfMachines: 1
+target: JSoupFuzzer.java
