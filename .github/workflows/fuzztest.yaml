@@ -1,0 +1,32 @@
+name: Cydarien Fuzztest
+
+on: [push]
+
+jobs:
+  fuzztest:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
+
+      - name: Polling results from cydarien.com
+        env:
+          CYDARIEN_USERNAME: ${{ secrets.CYDARIEN_USERNAME }}
+          CYDARIEN_PASSWORD: ${{ secrets.CYDARIEN_PASSWORD }}
+          REPOSITORY_HOST: GitHub
+          REPOSITORY_PATH: ${{ github.repository }}
+          COMMIT_SHA: ${{ github.sha }}
+        run: |
+          python .github/fuzztest.py
